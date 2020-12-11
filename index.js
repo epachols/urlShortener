@@ -4,6 +4,16 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const yup = require("yup");
 const { nanoid } = require("nanoid");
+const monk = require("monk");
+
+require('dotenv').config();
+
+// TODO:  double check using MONGOURI properly
+const db = monk(process.env.MONGO_URI);
+const urls = db.get('urls');
+urls.createIndex('name');
+// TODO:  double check using MONGOURI properly, see .env for possible changes
+
 
 const app = express();
 
