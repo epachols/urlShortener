@@ -52,12 +52,19 @@ app.post("/url", async (req, res, next) => {
     });
     if (!slug) {
       slug = nanoid(7);
+    } else {
+        const existing = await urls.findOne({ slug });
+        if (existing) {
+            throw new Error('Slug in use.🔫')
+        }
     }
     slug = slug.toLowerCase();
-    res.json({
-      slug,
-      url,
-    });
+    const newUrl = {
+        url,
+        slug,
+    };
+    const created = await urls.insert(newUrl);
+    res.json(created);
   } catch (error) {
     next(error);
   }
