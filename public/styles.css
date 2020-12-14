@@ -170,17 +170,18 @@ form button.create-url:active::before {
     place-items: center;
 } */
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 560px) {
     form {
-        display: flex;
-        flex-direction: column;
-        width: 90%;
+        /* display: flex;
+        flex-direction: column; */
+        width: 98%;
         height: 350px;
         padding: 5px;
     }
 
     .form__container {
         height: 75vh;
+        width: 95vw;
         display: grid;
         place-items: center;
     }
