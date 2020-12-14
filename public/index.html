@@ -14,26 +14,26 @@
       <div class="form__container">
         <form @submit.prevent="createUrl()">
           <h2>short. urls.</h2>
-          <form-group>
+          <div class="form-group">
             <label for="url">URL</label>
             <input v-model="url" type="text" name="url" id="url" placeholder="paste url here" />
-          </form-group>
-          <form-group>
+          </div>
+          <div class="form-group">
             <label for="slug">SLUG 👾</label>
-            <input v-model="slug" type="text" name="slug" id="slug" placeholder="want a custom slug?"/>
-          </form-group>
+            <input v-model="slug" type="text" name="slug" id="slug" placeholder="(optional) want a custom slug?"/>
+          </div>
           <button type="submit" class="create-url">Create</button>
+          <br>
+          <div class="response" v-if="created">
+            {{ created }}
+          </div>
         </form>
-        <pre v-if="created">
-          {{ JSON.stringify(created,null,2) }}
-        </pre>
       </div>
     </main>
 
     <script src="app.js"></script>
     <script>
       CSS.paintWorklet.addModule("parallelowow.js");
-      CSS.paintWorklet.addModule("https://unpkg.com/css-houdini-connections@1.0.5/dist/connections.js");
     </script>
     <script src="https://unpkg.com/css-paint-polyfill"></script>
   </body>

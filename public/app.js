@@ -19,6 +19,9 @@ var app = new Vue({
                 })
             })
             this.created = await response.json();
+            this.created.slug ? (
+                this.created = `https://ep-url.site/` + this.created.slug
+            ):(this.created = this.created.message);
         }
     }
  
