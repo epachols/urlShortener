@@ -39,6 +39,7 @@ main {
     --parallelowow-stroke-weight: 2;
     --parallelowow-probability: 0.8;
     background: paint(parallelowow), var(--parallelowow-base-color);
+    overflow: hidden;
 
 }
 
@@ -105,7 +106,7 @@ form button.create-url {
     font-weight: 400;
     color: var(--button-text);
     text-transform: uppercase;
-    padding: 5px 10px;
+    padding: 0 10px;
     background: var(--button-light);
     border: 2px solid var(--button-border);
     border-radius: 0.5em;
@@ -149,12 +150,25 @@ form button.create-url:active::before {
     transform: translate3d(0, 0, -1em);
 }
 
-.response {
+#response {
     word-wrap: break-word;
     margin: 10px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* TODO: #copy-btn {
+    display: in-line;
+    width: 30px;
+    height: 30px;
+    padding: 1px;
+    background-color:rgb(0, 0, 0);
+    color: white;
+    display: grid;
+    place-items: center;
+} */
 
 @media only screen and (max-width: 500px) {
     form {

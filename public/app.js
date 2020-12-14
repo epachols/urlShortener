@@ -4,6 +4,7 @@ var app = new Vue({
         url:'',
         slug: '',
         created: null,
+        newUrl: null,
     },
     methods: {
         async createUrl() {
@@ -19,9 +20,10 @@ var app = new Vue({
                 })
             })
             this.created = await response.json();
-            this.created.slug ? (
-                this.created = `https://ep-url.site/` + this.created.slug
-            ):(this.created = this.created.message);
+            if (this.created.slug) {
+                this.created = `https://ep-url.site/` + this.created.slug;
+                this.newUrl = true;
+            } else (this.created = this.created.message);
         }
     }
  
