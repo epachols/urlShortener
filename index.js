@@ -6,18 +6,17 @@ const yup = require("yup");
 const { nanoid } = require("nanoid");
 const monk = require("monk");
 
-require('dotenv').config();
+require("dotenv").config();
 
-// TODO:  double check using MONGOURI properly
 const db = monk(process.env.MONGO_URI);
-const urls = db.get('urls');
-urls.createIndex('name');
-// TODO:  double check using MONGOURI properly, see .env for possible changes
-
+const urls = db.get("urls");
+urls.createIndex({ url: 1, slug: 1 }, { unique: true });
 
 const app = express();
 
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
@@ -29,11 +28,18 @@ app.use(express.static("./public"));
 //     })
 // });
 
-// app.get('/:id', (req,res) => {
-//     res.json({
-//   //    TODO: redirect to a url
-//     })
-// });
+app.get("/:id", async (req, res) => {
+  const { id: slug } = req.params;
+  try {
+    const url = await urls.findOne({ slug });
+    if (url) {
+      res.redirect(url.url);
+    } 
+    res.redirect(`/?error=${slug} not found`);
+  } catch (error) {
+    res.redirect(`/?error=Link not found`);
+  }
+});
 
 const schema = yup.object().shape({
   slug: yup
@@ -52,20 +58,21 @@ app.post("/url", async (req, res, next) => {
     });
     if (!slug) {
       slug = nanoid(7);
-    } else {
-        const existing = await urls.findOne({ slug });
-        if (existing) {
-            throw new Error('Slug in use.🔫')
-        }
     }
     slug = slug.toLowerCase();
+
+    // console.log(slug); //TODO: AWAIT DB.FINDONE by URL, iF NO URL, ALSO GO.
+
     const newUrl = {
-        url,
-        slug,
+      url,
+      slug,
     };
     const created = await urls.insert(newUrl);
     res.json(created);
   } catch (error) {
+    if (error.message.startsWith("E11000")) {
+      error.message = "Slug in use. 🐛";
+    }
     next(error);
   }
 });

@@ -3,12 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cdg.sh</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- need to allow script-src-elem CSP ? -->
+
+    <title>etp-url.site</title>
     <link rel="stylesheet" href="styles.css" />
+
   </head>
   <body>
     <header>
-      <h1>cdg.sh - short urls for your face!</h1>
+      <h1>etp-url -> short urls, fast</h1>
     </header>
+    <main id="app">
+      <form @submit.prevent="createUrl()">
+        <label for="url">Url</label>
+        <input v-model="url" type="text" name="url" id="url" />
+        <label for="slug">Slug</label>
+        <input v-model="slug" type="text" name="slug" id="slug" />
+        <button type="submit">Create</button>
+      </form>
+      <pre>
+        {{JSON.stringify(created,null,2)}}
+      </pre>
+    </main>
+
+    <script src="app.js"></script>
   </body>
 </html>
