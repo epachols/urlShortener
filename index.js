@@ -8,12 +8,13 @@ const monk = require("monk");
 
 require("dotenv").config();
 
-const db = monk(process.env.MONGO_URI);
+const db = monk(process.env.MONGODB_URI);
 const urls = db.get("urls");
 urls.createIndex({ url: 1, slug: 1 }, { unique: true });
 
 const app = express();
 
+// to set these manually check out helmet-csp @ https://www.npmjs.com/package/helmet-csp
 app.use(helmet({
   contentSecurityPolicy: false,
 }));
@@ -52,10 +53,16 @@ const schema = yup.object().shape({
 app.post("/url", async (req, res, next) => {
   let { slug, url } = req.body;
   try {
-    await schema.validate({
-      slug,
-      url,
-    });
+    if (!slug) {
+      await schema.validate({
+        url
+      });
+    } else {
+      await schema.validate({
+        slug,
+        url,
+      });
+    }
     if (!slug) {
       slug = nanoid(7);
     }

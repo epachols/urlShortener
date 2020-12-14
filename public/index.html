@@ -3,31 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <!-- need to allow script-src-elem CSP ? -->
-
     <title>etp-url.site</title>
     <link rel="stylesheet" href="styles.css" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap" rel="stylesheet">
+    
   </head>
   <body>
-    <header>
-      <h1>etp-url -> short urls, fast</h1>
-    </header>
     <main id="app">
-      <form @submit.prevent="createUrl()">
-        <label for="url">Url</label>
-        <input v-model="url" type="text" name="url" id="url" />
-        <label for="slug">Slug</label>
-        <input v-model="slug" type="text" name="slug" id="slug" />
-        <button type="submit">Create</button>
-      </form>
-      <pre>
-        {{JSON.stringify(created,null,2)}}
-      </pre>
+      <div class="form__container">
+        <form @submit.prevent="createUrl()">
+          <h2>short. urls.</h2>
+          <form-group>
+            <label for="url">URL</label>
+            <input v-model="url" type="text" name="url" id="url" placeholder="paste url here" />
+          </form-group>
+          <form-group>
+            <label for="slug">SLUG 👾</label>
+            <input v-model="slug" type="text" name="slug" id="slug" placeholder="want a custom slug?"/>
+          </form-group>
+          <button type="submit" class="create-url">Create</button>
+        </form>
+        <pre v-if="created">
+          {{ JSON.stringify(created,null,2) }}
+        </pre>
+      </div>
     </main>
 
     <script src="app.js"></script>
+    <script>
+      CSS.paintWorklet.addModule("parallelowow.js");
+      CSS.paintWorklet.addModule("https://unpkg.com/css-houdini-connections@1.0.5/dist/connections.js");
+    </script>
+    <script src="https://unpkg.com/css-paint-polyfill"></script>
   </body>
 </html>
