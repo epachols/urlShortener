@@ -21,7 +21,8 @@ var app = new Vue({
             })
             this.created = await response.json();
             if (this.created.slug) {
-                this.created = `https://ep-url.site/` + this.created.slug;
+                // this.created = `https://ep-url.site/` + this.created.slug;
+                this.created = `window.location.href` + this.created.slug;
                 this.newUrl = true;
             } else (this.created = this.created.message);
         }
