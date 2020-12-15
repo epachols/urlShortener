@@ -6,7 +6,7 @@ const yup = require("yup");
 const { nanoid } = require("nanoid");
 const monk = require("monk");
 
-// require("dotenv").config();
+require("dotenv").config();
 
 const db = monk(process.env.MONGODB_URL);
 const urls = db.get("urls");
