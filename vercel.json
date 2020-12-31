@@ -22,7 +22,7 @@
     },
     {
       "src": "'styles.css",
-      "public": "frontend/styles.css"
+      "dest": "frontend/styles.css"
     },
     {
       "src": "/app.js",
