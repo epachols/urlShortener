@@ -32,9 +32,9 @@ app.use(express.json());
 //     })
 // });
 
-//TODO: vercel wants to add the /api to all the routes, but let's see if this functions.
+//TODO: baseline vercel wants to add the /api to all the routes.
 
-app.get("/:id", async (req, res) => {
+app.get("/api/:id", async (req, res) => {
   const { id: slug } = req.params;
   try {
     const url = await urls.findOne({ slug });
@@ -55,7 +55,7 @@ const schema = yup.object().shape({
   url: yup.string().trim().url().required(),
 });
 
-app.post("/url", async (req, res, next) => {
+app.post("/api/url", async (req, res, next) => {
   let { slug, url } = req.body;
   try {
     if (!slug) {
