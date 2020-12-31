@@ -1,51 +1,14 @@
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
-const helmet = require("helmet");
 const yup = require("yup");
 const { nanoid } = require("nanoid");
 const monk = require("monk");
-
-// require("dotenv").config();
 
 const db = monk(process.env.MONGODB_URI);
 const urls = db.get("urls");
 urls.createIndex({ url: 1, slug: 1 }, { unique: true });
 
-const app = express();
+const app = require("express")();
 
-// to set these manually check out helmet-csp @ https://www.npmjs.com/package/helmet-csp
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-  })
-);
-app.use(morgan("tiny"));
-app.use(cors());
 app.use(express.json());
-
-// app.use(express.static("./public"));   // vercel says this is possibly not needed.
-
-// app.get('/url/:id', (req,res) => {
-//     res.json({
-//     //    TODO: get a short url by id
-//     })
-// });
-
-//TODO: baseline vercel wants to add the /api to all the routes.
-
-app.get("/api/:id", async (req, res) => {
-  const { id: slug } = req.params;
-  try {
-    const url = await urls.findOne({ slug });
-    if (url) {
-      res.redirect(url.url);
-    }
-    res.redirect(`/?error=${slug} not found`);
-  } catch (error) {
-    res.redirect(`/?error=Link not found`);
-  }
-});
 
 const schema = yup.object().shape({
   slug: yup
@@ -55,7 +18,7 @@ const schema = yup.object().shape({
   url: yup.string().trim().url().required(),
 });
 
-app.post("/api/url", async (req, res, next) => {
+app.post("/url", async (req, res, next) => {
   let { slug, url } = req.body;
   try {
     if (!slug) {
@@ -84,6 +47,19 @@ app.post("/api/url", async (req, res, next) => {
       error.message = "Slug in use. 🐛";
     }
     next(error);
+  }
+});
+
+app.get("/:id", async (req, res) => {
+  const { id: slug } = req.params;
+  try {
+    const url = await urls.findOne({ slug });
+    if (url) {
+      res.redirect(url.url);
+    }
+    res.redirect(`/?error=${slug} not found`);
+  } catch (error) {
+    res.redirect(`/?error=Link not found`);
   }
 });
 
