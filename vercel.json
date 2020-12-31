@@ -17,11 +17,11 @@
       "dest": "frontend/index.html"
     },
     {
-      "src": "parallelowow.js",
+      "src": "/parallelowow.js",
       "dest": "frontend/parallelowow.js"
     },
     {
-      "src": "'styles.css",
+      "src": "/styles.css",
       "dest": "frontend/styles.css"
     },
     {
