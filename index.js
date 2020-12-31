@@ -15,9 +15,11 @@ urls.createIndex({ url: 1, slug: 1 }, { unique: true });
 const app = express();
 
 // to set these manually check out helmet-csp @ https://www.npmjs.com/package/helmet-csp
-app.use(helmet({
-  contentSecurityPolicy: false,
-}));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
@@ -35,7 +37,7 @@ app.get("/:id", async (req, res) => {
     const url = await urls.findOne({ slug });
     if (url) {
       res.redirect(url.url);
-    } 
+    }
     res.redirect(`/?error=${slug} not found`);
   } catch (error) {
     res.redirect(`/?error=Link not found`);
@@ -55,7 +57,7 @@ app.post("/url", async (req, res, next) => {
   try {
     if (!slug) {
       await schema.validate({
-        url
+        url,
       });
     } else {
       await schema.validate({
