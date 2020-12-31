@@ -7,26 +7,26 @@
       "use": "@vercel/node"
     },
     {
-      "src": "public/**",
+      "src": "frontend/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/",
-      "dest": "public/index.html"
+      "dest": "frontend/index.html"
     },
     {
       "src": "parallelowow.js",
-      "dest": "public/parallelowow.js"
+      "dest": "frontend/parallelowow.js"
     },
     {
       "src": "'styles.css",
-      "public": "public/styles.css"
+      "public": "frontend/styles.css"
     },
     {
       "src": "/app.js",
-      "dest": "public/app.js"
+      "dest": "frontend/app.js"
     },
     {
       "src": "/(.+)",
