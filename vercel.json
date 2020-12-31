@@ -29,6 +29,10 @@
       "dest": "frontend/app.js"
     },
     {
+      "src": "/parallel-backup.png",
+      "dest": "frontend/parallel-backup.png"
+    },
+    {
       "src": "/(.+)",
       "dest": "app/index.js"
     }

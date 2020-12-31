@@ -28,7 +28,7 @@ header {
   text-align: center;
 }
 
-main {
+/* main {
   display: grid;
   place-items: center;
   padding: 5px;
@@ -40,6 +40,18 @@ main {
   --parallelowow-stroke-weight: 2;
   --parallelowow-probability: 0.8;
   background: paint(parallelowow), var(--parallelowow-base-color);
+  overflow: hidden;
+} */
+
+main {
+  display: grid;
+  place-items: center;
+  padding: 5px;
+  width: 100vw;
+  min-height: 100vh;
+  background-image: url("./parallel-backup.png");
+  background-size: cover;
+  background-position: center;
   overflow: hidden;
 }
 
