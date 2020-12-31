@@ -46,7 +46,7 @@ app.post("/url", async (req, res, next) => {
     if (error.message.startsWith("E11000")) {
       error.message = "Slug in use. 🐛";
     }
-    next(error);
+    res.json(error);
   }
 });
 
@@ -55,24 +55,28 @@ app.get("/:id", async (req, res) => {
   try {
     const url = await urls.findOne({ slug });
     if (url) {
-      res.redirect(url.url);
+      // res.redirect(url.url); //needs to be full response for vercel
+      res.statusCode = 302;
+      res.setHeader("Location", url.url);
+      //must send a body or vercel thinks the response is empty
+      res.end("redirect with a body 🦵");
     }
-    res.redirect(`/?error=${slug} not found`);
+    res.end(`Error: ${slug} not found. Probs not in there.`);
   } catch (error) {
-    res.redirect(`/?error=Link not found`);
+    res.end(`Error: ${error}`);
   }
 });
 
-app.use((error, req, res, next) => {
-  if (error.status) {
-    res.status(error.status);
-  } else {
-    res.status(500);
-  }
-  res.json({
-    message: error.message,
-    stack: process.env.NODE_ENV === "production" ? "🥞" : error.stack,
-  });
-});
+// app.use((error, req, res, next) => {
+//   if (error.status) {
+//     res.status(error.status);
+//   } else {
+//     res.status(500);
+//   }
+//   res.json({
+//     message: error.message,
+//     stack: process.env.NODE_ENV === "production" ? "🥞" : error.stack,
+//   });
+// });
 
 module.exports = app;
